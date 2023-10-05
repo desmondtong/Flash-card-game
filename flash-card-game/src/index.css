@@ -8,15 +8,11 @@
   font-weight: 400;
 }
 
-
-/* body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-} */
-
 * {
   box-sizing: border-box;
+}
+
+.border {
+  border-style: solid;
+  border-color: black;
 }
