@@ -5,14 +5,18 @@ import Button from "../components/Button";
 const GamePage: React.FC = () => {
   const [num1, setNum1] = useState<number>(0);
   const [num2, setNum2] = useState<number>(0);
+  const [operator, setOperator] = useState<string>("");
   const [score, setScore] = useState<number>(0);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const operators = ["+", "-", "*", "/"];
+
   // function
-  const setRandomNumbers = () => {
+  const setQuestion = () => {
     setNum1(Math.round(Math.random() * 12));
     setNum2(Math.round(Math.random() * 12));
+    setOperator(operators[Math.round(Math.random() * 3)]);
   };
 
   const updateScore = (isCorrect = true) => {
@@ -24,8 +28,9 @@ const GamePage: React.FC = () => {
   };
 
   const checkAnswer = () => {
-    if (inputRef.current && Number(inputRef.current?.value) == num1 * num2) {
-      setRandomNumbers();
+    const equation = eval(`${num1} ${operator} ${num2}`);
+    if (inputRef.current && Number(inputRef.current?.value) == equation) {
+      setQuestion();
       updateScore();
 
       inputRef.current.value = "";
@@ -39,7 +44,7 @@ const GamePage: React.FC = () => {
   };
 
   useEffect(() => {
-    setRandomNumbers();
+    setQuestion();
     inputRef.current?.focus();
   }, []);
   return (
@@ -51,7 +56,7 @@ const GamePage: React.FC = () => {
 
         <div className="border flex flex-row justify-around text-align">
           <TextBox>{num1}</TextBox>
-          <TextBox>x</TextBox>
+          <TextBox>{operator}</TextBox>
           <TextBox>{num2}</TextBox>
           <TextBox>=</TextBox>
           <input className="border w-44 h-44 text-8xl" ref={inputRef}></input>
