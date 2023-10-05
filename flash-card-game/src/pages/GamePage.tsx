@@ -25,21 +25,20 @@ const GamePage: React.FC = () => {
     } else {
       score && setScore(score - 1);
     }
+
+    if (inputRef.current) inputRef.current.value = "";
+    inputRef.current?.focus();
   };
 
   const checkAnswer = () => {
-    const equation = eval(`${num1} ${operator} ${num2}`);
-    if (inputRef.current && Number(inputRef.current?.value) == equation) {
+    const equation =
+      Math.round(eval(`${num1} ${operator} ${num2}`) * 100) / 100;
+    if (Number(inputRef.current?.value) == equation) {
       setQuestion();
       updateScore();
-
-      inputRef.current.value = "";
-      inputRef.current?.focus();
     } else {
       alert("Wrong answer! Please try again!");
       updateScore(false);
-
-      inputRef.current?.focus();
     }
   };
 
@@ -62,7 +61,9 @@ const GamePage: React.FC = () => {
           <input className="border w-44 h-44 text-8xl" ref={inputRef}></input>
         </div>
 
-        <Button onClick={checkAnswer}>Enter</Button>
+        <Button onClick={checkAnswer}>
+          Enter
+        </Button>
       </div>
     </>
   );
