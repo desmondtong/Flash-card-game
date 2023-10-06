@@ -30,7 +30,7 @@ const History: React.FC = () => {
 
         {questionObj ? (
           <>
-            <div className="flex flex-col items-center h-1/2">
+            <div className="flex flex-col items-center h-2/3">
               <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                   <div className="overflow-hidden">
@@ -38,13 +38,13 @@ const History: React.FC = () => {
                       <thead className="border-b font-medium dark:border-neutral-500">
                         <tr>
                           <th scope="col" className="px-6 py-4 w-40">
-                            Ranking
+                            #
                           </th>
                           <th scope="col" className="px-6 py-4 w-40">
-                            Score
+                            Question
                           </th>
                           <th scope="col" className="px-6 py-4 w-40">
-                            Level Cleared
+                            Cleared
                           </th>
                         </tr>
                       </thead>
