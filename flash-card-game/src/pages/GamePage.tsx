@@ -8,7 +8,7 @@ import ModalWindow from "../components/ModalWindow";
 const GamePage: React.FC = () => {
   const navigate = useNavigate();
   const operators = ["+", "-", "*", "/"];
-  const gameTime = 5;
+  const gameTime = 10;
 
   const [num1, setNum1] = useState<number>(0);
   const [num2, setNum2] = useState<number>(0);

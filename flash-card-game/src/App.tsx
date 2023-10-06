@@ -10,7 +10,10 @@ import { ScoreDetails } from "./interfaces";
 const App: React.FC = () => {
   const [scoreboard, setScoreboard] = useState<ScoreDetails[]>([]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    JSON.parse(localStorage.getItem("scoreboard")!) ||
+      localStorage.setItem("scoreboard", JSON.stringify([]));
+  }, []);
   return (
     <div>
       <GameInfoContext.Provider value={{ scoreboard, setScoreboard }}>

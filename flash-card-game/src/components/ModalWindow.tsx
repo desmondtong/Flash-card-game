@@ -1,18 +1,21 @@
-import React, { Fragment, useContext } from "react";
-import GameInfoContext from "../context/gameInfo";
+import React, { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Props } from "../interfaces";
+import { Props, ScoreDetails } from "../interfaces";
 
 const ModalWindow: React.FC<Props> = (props) => {
-  const gameCtx = useContext(GameInfoContext);
-
   const handleEndGame = () => {
     props.btn1Navigate!();
     props.setOpenModal!(false);
 
-    gameCtx?.setScoreboard((currState) => {
-      return [...currState, { score: props.score!, level: 1 }];
-    });
+    // retrieve scoreboard info from localStorage and update scoreboard info
+    const currScoreboard: ScoreDetails[] = JSON.parse(
+      localStorage.getItem("scoreboard")!
+    );
+    const updatedScoreboard = [
+      ...currScoreboard,
+      { score: props.score!, level: 1 },
+    ];
+    localStorage.setItem("scoreboard", JSON.stringify(updatedScoreboard));
   };
 
   return (
