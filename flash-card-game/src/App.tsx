@@ -17,7 +17,8 @@ const App: React.FC = () => {
 
     for (const operator of operators) {
       for (let i = 0; i < 13; i++) {
-        for (let j = 0; j < 13; j++) {
+        // conditional for j to ensure no question such that any number is divided by 0
+        for (let j = operator == "/" ? 1 : 0; j < 13; j++) {
           obj[`${i} ${operator} ${j}`] = false;
         }
       }

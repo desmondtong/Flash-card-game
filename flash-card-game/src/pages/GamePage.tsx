@@ -12,7 +12,7 @@ const GamePage: React.FC = () => {
   const gameCtx = useContext(GameInfoContext);
 
   const operators = ["+", "-", "*", "/"];
-  const gameTime = 1;
+  const gameTime = 60;
 
   const [num1, setNum1] = useState<number>(0);
   const [num2, setNum2] = useState<number>(0);

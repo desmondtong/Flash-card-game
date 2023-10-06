@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-import Button from "../components/Button";
+import { HomeIcon, TrashIcon } from "@heroicons/react/20/solid";
 
 const History: React.FC = () => {
   const navigate = useNavigate();
@@ -26,15 +25,11 @@ const History: React.FC = () => {
   }, []);
   return (
     <>
-      <div className="flex flex-col">
-        <p className="text-6xl text-center my-5">Game History</p>
-
-        <Button onClick={() => navigate("/")}>Main Menu</Button>
+      <div className="flex flex-col h-screen justify-center">
+        <p className="text-6xl text-center h-1/6">Game History</p>
 
         {questionObj ? (
           <>
-            <Button onClick={handleDelete}>Delete History</Button>
-
             <div className="flex flex-col items-center h-1/2">
               <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -80,8 +75,25 @@ const History: React.FC = () => {
             </div>
           </>
         ) : (
-          <p className="text-xl text-center my-10">No record!</p>
+          <p className="text-xl h-1/2 flex items-center justify-center">
+            No record!
+          </p>
         )}
+
+        <div className="flex justify-center gap-5 mt-10">
+          <button
+            className="w-10 h-10 justify-center rounded-full bg-red-400 px-3 py-2 text-sm font-semibold shadow-sm hover:bg-red-300"
+            onClick={handleDelete}
+          >
+            <TrashIcon className="text-white" aria-hidden="true" />
+          </button>
+          <button
+            className="w-10 h-10 justify-center rounded-full bg-yellow-400 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-yellow-300"
+            onClick={() => navigate("/")}
+          >
+            <HomeIcon className="text-gray-400" aria-hidden="true" />
+          </button>
+        </div>
       </div>
     </>
   );
