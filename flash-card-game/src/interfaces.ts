@@ -1,12 +1,17 @@
-export interface GameInfoContext {
+export interface GameInfoContextType {
   scoreboard: ScoreDetails[];
   setScoreboard: React.Dispatch<React.SetStateAction<ScoreDetails[]>>;
 }
 
 export interface Props {
-  children?: string | number;
+  children?: any;
   onClick?: () => void;
   isDisabled?: boolean;
+
+  //open modal
+  openModal?: boolean;
+  setOpenModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  btn1Navigate?: () => void;
 }
 
 export interface ScoreDetails {

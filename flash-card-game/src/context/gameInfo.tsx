@@ -1,7 +1,7 @@
 import React from "react";
-import { GameInfoContext } from "../interfaces";
+import { GameInfoContextType } from "../interfaces";
 
-const GameInfoContext = React.createContext<GameInfoContext | undefined>(
+const GameInfoContext = React.createContext<GameInfoContextType | undefined>(
   undefined
 );
 

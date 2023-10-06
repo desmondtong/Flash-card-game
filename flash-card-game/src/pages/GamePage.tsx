@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import TextBox from "../components/TextBox";
 import Button from "../components/Button";
+import ModalWindow from "../components/ModalWindow";
 
 const GamePage: React.FC = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const GamePage: React.FC = () => {
   const [operator, setOperator] = useState<string>("");
   const [score, setScore] = useState<number>(0);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   // state for timer
   const [time, setTime] = useState<number>(gameTime);
@@ -21,12 +23,11 @@ const GamePage: React.FC = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-
   // function
   const initGameState = () => {
     setQuestion();
     setScore(0);
-    
+
     setRunTimer(true);
     setTime(gameTime);
 
@@ -79,6 +80,7 @@ const GamePage: React.FC = () => {
     } else if (time === 0) {
       clearInterval(intervalId!);
       setIsDisabled(true);
+      setOpenModal(true);
     }
 
     // clean up before starting new cycle
@@ -94,9 +96,7 @@ const GamePage: React.FC = () => {
         <div className="flex flex-col justify-center my-5">
           <div className="flex flex-row justify-between items-center">
             <div className="border basis-1/6"></div>
-            <p className="text-7xl border flex-1 text-center">
-              {time}
-            </p>
+            <p className="text-7xl border flex-1 text-center">{time}</p>
             <button className="border basis-1/12" onClick={handleRestart}>
               restart
             </button>
@@ -128,6 +128,19 @@ const GamePage: React.FC = () => {
           Enter
         </Button>
       </div>
+
+      <ModalWindow
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        btn1Navigate={() => navigate("/scoreboard")}
+      >
+        {[
+          "Game Over!",
+          "Press Continue to proceed to next level!",
+          "Continue",
+          "End Game",
+        ]}
+      </ModalWindow>
     </>
   );
 };
