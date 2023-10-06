@@ -1,11 +1,18 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
+import GameInfoContext from "../context/gameInfo";
 import { Dialog, Transition } from "@headlessui/react";
 import { Props } from "../interfaces";
 
 const ModalWindow: React.FC<Props> = (props) => {
+  const gameCtx = useContext(GameInfoContext);
+
   const handleEndGame = () => {
     props.btn1Navigate!();
     props.setOpenModal!(false);
+
+    gameCtx?.setScoreboard((currState) => {
+      return [...currState, { score: props.score!, level: 1 }];
+    });
   };
 
   return (

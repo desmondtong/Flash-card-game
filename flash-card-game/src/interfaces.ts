@@ -12,6 +12,7 @@ export interface Props {
   openModal?: boolean;
   setOpenModal?: React.Dispatch<React.SetStateAction<boolean>>;
   btn1Navigate?: () => void;
+  score?: number;
 }
 
 export interface ScoreDetails {

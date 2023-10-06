@@ -129,10 +129,12 @@ const GamePage: React.FC = () => {
         </Button>
       </div>
 
+      {/* popup window when game is over */}
       <ModalWindow
         openModal={openModal}
         setOpenModal={setOpenModal}
         btn1Navigate={() => navigate("/scoreboard")}
+        score={score}
       >
         {[
           "Game Over!",
