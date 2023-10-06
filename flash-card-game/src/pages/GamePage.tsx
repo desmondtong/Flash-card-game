@@ -8,7 +8,7 @@ import ModalWindow from "../components/ModalWindow";
 const GamePage: React.FC = () => {
   const navigate = useNavigate();
   const operators = ["+", "-", "*", "/"];
-  const gameTime = 10;
+  const gameTime = 1;
 
   const [num1, setNum1] = useState<number>(0);
   const [num2, setNum2] = useState<number>(0);
@@ -89,6 +89,10 @@ const GamePage: React.FC = () => {
 
   useEffect(() => {
     initGameState();
+
+    //to make sure scoreboard array is created after delete history
+    JSON.parse(localStorage.getItem("scoreboard")!) ||
+      localStorage.setItem("scoreboard", JSON.stringify([]));
   }, []);
   return (
     <>
