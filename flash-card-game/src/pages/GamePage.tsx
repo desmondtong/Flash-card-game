@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import GameInfoContext from "../context/gameInfo";
 
 import TextBox from "../components/TextBox";
 import Button from "../components/Button";
@@ -7,8 +8,10 @@ import ModalWindow from "../components/ModalWindow";
 
 const GamePage: React.FC = () => {
   const navigate = useNavigate();
+  const gameCtx = useContext(GameInfoContext);
+
   const operators = ["+", "-", "*", "/"];
-  const gameTime = 1;
+  const gameTime = 10;
 
   const [num1, setNum1] = useState<number>(0);
   const [num2, setNum2] = useState<number>(0);
@@ -53,11 +56,21 @@ const GamePage: React.FC = () => {
   };
 
   const checkAnswer = () => {
-    const equation =
-      Math.round(eval(`${num1} ${operator} ${num2}`) * 100) / 100;
+    const question = `${num1} ${operator} ${num2}`;
+    const equation = Math.round(eval(question) * 100) / 100;
+
     if (Number(inputRef.current?.value) == equation) {
       setQuestion();
       updateScore();
+
+      const questionsHistory = JSON.parse(
+        localStorage.getItem("questionsHistory")!
+      );
+      questionsHistory[question] = true;
+      localStorage.setItem(
+        "questionsHistory",
+        JSON.stringify(questionsHistory)
+      );
     } else {
       alert("Wrong answer! Please try again!");
       updateScore(false);
@@ -93,6 +106,12 @@ const GamePage: React.FC = () => {
     //to make sure scoreboard array exist by creating one after deleted from history
     JSON.parse(localStorage.getItem("scoreboard")!) ||
       localStorage.setItem("scoreboard", JSON.stringify([]));
+
+    JSON.parse(localStorage.getItem("questionsHistory")!) ||
+      localStorage.setItem(
+        "questionsHistory",
+        JSON.stringify(gameCtx?.questionsHistory)
+      );
   }, []);
   return (
     <>

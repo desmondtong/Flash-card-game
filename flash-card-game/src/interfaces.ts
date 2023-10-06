@@ -1,6 +1,8 @@
 export interface GameInfoContextType {
   scoreboard: ScoreDetails[];
   setScoreboard: React.Dispatch<React.SetStateAction<ScoreDetails[]>>;
+  questionsHistory: HistoryDetails;
+  setQuestionsHistory: React.Dispatch<React.SetStateAction<HistoryDetails>>;
 }
 
 export interface Props {
@@ -18,4 +20,8 @@ export interface Props {
 export interface ScoreDetails {
   score: number;
   level: number;
+}
+
+export interface HistoryDetails {
+  [key: string]: boolean;
 }

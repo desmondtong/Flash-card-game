@@ -6,6 +6,7 @@ import Button from "../components/Button";
 
 const Scoreboard: React.FC = () => {
   const navigate = useNavigate();
+
   const [sortedScoreboard, setSortedScoreboard] = useState<ScoreDetails[]>([]);
 
   // sort scoreboard array based on score in descending order
@@ -24,6 +25,7 @@ const Scoreboard: React.FC = () => {
   };
 
   const handleDelete = () => {
+    //ADD POPUP WINDOW TO CONFIRM DELETE
     setSortedScoreboard([]);
     localStorage.removeItem("scoreboard");
   };
@@ -63,7 +65,7 @@ const Scoreboard: React.FC = () => {
                 </tbody>
               </table>
             </div>
-            <Button onClick={handleDelete}>Delete History</Button>
+            <Button onClick={handleDelete}>Clear Scoreboard History</Button>
           </>
         )}
 
