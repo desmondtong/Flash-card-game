@@ -1,10 +1,15 @@
+import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import MainMenu from "./pages/MainMenu";
 import GamePage from "./pages/GamePage";
 import Scoreboard from "./pages/Scoreboard";
 import History from "./pages/History";
+import { ScoreDetails } from "./interfaces";
 
-function App() {
+const App: React.FC = () => {
+  const [scoreboard, setScoreboard] = useState<ScoreDetails[]>([]);
+
+  useEffect(() => {}, []);
   return (
     <div>
       <Routes>
@@ -15,6 +20,6 @@ function App() {
       </Routes>
     </div>
   );
-}
+};
 
 export default App;
