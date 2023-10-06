@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import GameInfoContext from "../context/gameInfo";
+import { ArrowPathIcon, HomeIcon } from "@heroicons/react/20/solid";
 
 import TextBox from "../components/TextBox";
 import Button from "../components/Button";
@@ -11,7 +12,7 @@ const GamePage: React.FC = () => {
   const gameCtx = useContext(GameInfoContext);
 
   const operators = ["+", "-", "*", "/"];
-  const gameTime = 10;
+  const gameTime = 100;
 
   const [num1, setNum1] = useState<number>(0);
   const [num2, setNum2] = useState<number>(0);
@@ -19,6 +20,10 @@ const GamePage: React.FC = () => {
   const [score, setScore] = useState<number>(0);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+
+  // answer message
+  const [showMessage, setShowMessage] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
 
   // state for timer
   const [time, setTime] = useState<number>(gameTime);
@@ -55,14 +60,24 @@ const GamePage: React.FC = () => {
     inputRef.current?.focus();
   };
 
+  const handleShowMessage = (message: string) => {
+    setShowMessage(true);
+    setTimeout(() => {
+      setShowMessage(false);
+    }, 2000);
+    setMessage(message);
+  };
+
   const checkAnswer = () => {
     const question = `${num1} ${operator} ${num2}`;
     const equation = Math.round(eval(question) * 100) / 100;
+    setShowMessage(false);
 
     if (Number(inputRef.current?.value) == equation) {
       setQuestion();
       updateScore();
 
+      // retrieve questionsHistory and update accordingly
       const questionsHistory = JSON.parse(
         localStorage.getItem("questionsHistory")!
       );
@@ -71,21 +86,22 @@ const GamePage: React.FC = () => {
         "questionsHistory",
         JSON.stringify(questionsHistory)
       );
+
+      handleShowMessage("Correct! 🎉");
     } else {
-      alert("Wrong answer! Please try again!");
       updateScore(false);
+      handleShowMessage("Try again! 😅");
     }
   };
 
   const handleRestart = () => {
-    // add popup to confirm restart?
+    // add popup to confirm r?
     initGameState();
   };
 
   // game timer
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
-
     if (runTimer && time > 0) {
       intervalId = setInterval(() => {
         setTime((currState) => currState - 1);
@@ -95,7 +111,6 @@ const GamePage: React.FC = () => {
       setIsDisabled(true);
       setOpenModal(true);
     }
-
     // clean up before starting new cycle
     return () => clearInterval(intervalId);
   }, [runTimer, time]);
@@ -113,43 +128,75 @@ const GamePage: React.FC = () => {
         JSON.stringify(gameCtx?.questionsHistory)
       );
   }, []);
+
   return (
     <>
-      <div className="border flex flex-col">
+      <div className="flex flex-col h-screen justify-center">
         <div className="flex flex-col justify-center my-5">
           <div className="flex flex-row justify-between items-center">
-            <div className="border basis-1/6"></div>
-            <p className="text-7xl border flex-1 text-center">{time}</p>
-            <button className="border basis-1/12" onClick={handleRestart}>
-              restart
-            </button>
-            <button className="border basis-1/12" onClick={() => navigate("/")}>
-              home
-            </button>
+            <div className="basis-5/12"></div>
+            <p className="text-7xl flex-1 text-center border-2 py-5">{time}</p>
+            <div className="basis-5/12 flex justify-end gap-5 px-10">
+              <button
+                className="w-10 h-10 justify-center rounded-full bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                onClick={handleRestart}
+              >
+                <ArrowPathIcon className="text-gray-400" aria-hidden="true" />
+              </button>
+              <button
+                className="w-10 h-10  justify-center rounded-full bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                onClick={() => navigate("/")}
+              >
+                <HomeIcon className="text-gray-400" aria-hidden="true" />
+              </button>
+            </div>
           </div>
         </div>
 
-        <p className="border text-center text-2xl">Current score</p>
-        <p className="text-7xl border self-center w-40 text-center">{score}</p>
+        <p className="text-center text-2xl">Current score</p>
 
-        <div className="flex flex-row justify-around text-align">
+        {/* only changes colour together with answer message */}
+        <p
+          className={`text-7xl self-center w-40 text-center ${
+            showMessage
+              ? message.includes("Correct")
+                ? "text-green-400"
+                : "text-red-400"
+              : ""
+          }`}
+        >
+          {score}
+        </p>
+
+        <div className="flex flex-row justify-around items-center text-align h-1/2">
           <TextBox>{num1}</TextBox>
           <TextBox>{operator === "*" ? "x" : operator}</TextBox>
           <TextBox>{num2}</TextBox>
           <TextBox>=</TextBox>
           <input
-            className="border w-44 h-44 text-8xl"
+            className="border-2 w-60 h-44 text-8xl text-center"
             ref={inputRef}
             disabled={isDisabled}
           ></input>
         </div>
-        <p className="text-sm italic text-right mx-5">
+
+        <div
+          className={`${
+            showMessage ? "" : "invisible"
+          } text-2xl text-center mx-5 font-medium ${
+            message.includes("Correct") ? "text-green-400" : "text-red-400"
+          }`}
+        >
+          {message}
+        </div>
+
+        <Button onClick={checkAnswer} isDisabled={isDisabled}>
+          Enter Answer
+        </Button>
+        <p className="text-sm italic text-center mx-5 font-light text-gray-400">
           Provide answer to <span className="font-bold">2 d.p</span>, if
           applicable
         </p>
-        <Button onClick={checkAnswer} isDisabled={isDisabled}>
-          Enter
-        </Button>
       </div>
 
       {/* popup window when game is over */}

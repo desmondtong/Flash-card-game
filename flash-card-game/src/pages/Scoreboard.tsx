@@ -36,34 +36,56 @@ const Scoreboard: React.FC = () => {
 
   return (
     <>
-      <div className="border flex flex-col">
-        <p className="text-6xl text-center">TOP 5 HIGHSCORES</p>
+      <div className="border flex flex-col h-screen justify-center">
+        <p className="text-6xl text-center h-1/6">TOP 5 HIGHSCORES</p>
 
         {/* show "No record!" if scoreboard history is deleted OR no records */}
         {!sortedScoreboard || sortedScoreboard.length == 0 ? (
           <p className="text-xl text-center my-10">No record!</p>
         ) : (
           <>
-            <div className="border flex justify-center items-center">
-              <table>
-                <tbody>
-                  <tr className="border">
-                    <th className="border w-40">Ranking</th>
-                    <th className="border w-40">Score</th>
-                    <th className="border w-40">Level Cleared</th>
-                  </tr>
-
-                  {sortedScoreboard.map((item, idx) => {
-                    return (
-                      <tr key={idx}>
-                        <td className="text-center">{idx + 1}</td>
-                        <td className="text-center">{item.score}</td>
-                        <td className="text-center">{item.level}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+            <div className="flex flex-col items-center h-1/2">
+              <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                  <div className="overflow-hidden">
+                    <table className="text-center text-sm font-light">
+                      <thead className="border-b font-medium dark:border-neutral-500">
+                        <tr>
+                          <th scope="col" className="px-6 py-4 w-40">
+                            Ranking
+                          </th>
+                          <th scope="col" className="px-6 py-4 w-40">
+                            Score
+                          </th>
+                          <th scope="col" className="px-6 py-4 w-40">
+                            Level Cleared
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {sortedScoreboard.map((item, idx) => {
+                          return (
+                            <tr
+                              key={idx}
+                              className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500"
+                            >
+                              <td className="whitespace-nowrap px-6 py-4">
+                                {idx + 1}
+                              </td>
+                              <td className="whitespace-nowrap px-6 py-4">
+                                {item.score}
+                              </td>
+                              <td className="whitespace-nowrap px-6 py-4">
+                                {item.level}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div>
             <Button onClick={handleDelete}>Clear Scoreboard History</Button>
           </>
