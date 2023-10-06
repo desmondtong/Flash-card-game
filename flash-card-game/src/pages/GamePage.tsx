@@ -6,6 +6,7 @@ import Button from "../components/Button";
 
 const GamePage: React.FC = () => {
   const navigate = useNavigate();
+  const gameTime = 5;
 
   const [num1, setNum1] = useState<number>(0);
   const [num2, setNum2] = useState<number>(0);
@@ -13,12 +14,27 @@ const GamePage: React.FC = () => {
   const [score, setScore] = useState<number>(0);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
+  // state for timer
+  const [time, setTime] = useState<number>(gameTime);
+  const [runTimer, setRunTimer] = useState<boolean>(false);
+
   const inputRef = useRef<HTMLInputElement>(null);
   const timerRef = useRef<HTMLParagraphElement>(null);
 
   const operators = ["+", "-", "*", "/"];
 
   // function
+  const initGameState = () => {
+    setQuestion();
+    setScore(0);
+    
+    setRunTimer(true);
+    setTime(gameTime);
+
+    setIsDisabled(false);
+    inputRef.current?.focus();
+  };
+
   const setQuestion = () => {
     setNum1(Math.round(Math.random() * 12));
     setNum2(Math.round(Math.random() * 12));
@@ -48,49 +64,52 @@ const GamePage: React.FC = () => {
     }
   };
 
-  const gameTimer = () => {
-    let initTime = 5;
-    const timer = timerRef.current;
-
-    timer && (timer.textContent = initTime.toString());
-
-    const interval = setInterval(() => {
-      initTime--;
-      timer && (timer.textContent = initTime.toString());
-
-      if (initTime === 0) {
-        clearInterval(interval);
-        setIsDisabled(true);
-      }
-      //game over logic
-    }, 1000);
+  const handleRestart = () => {
+    // add popup to confirm restart?
+    initGameState();
   };
 
+  // timer
   useEffect(() => {
-    setQuestion();
-    setScore(0);
-    gameTimer();
-    inputRef.current?.focus();
+    let intervalId: NodeJS.Timeout;
+
+    if (runTimer && time > 0) {
+      intervalId = setInterval(() => {
+        setTime((currState) => currState - 1);
+      }, 1000);
+    } else if (time === 0) {
+      clearInterval(intervalId!);
+      setIsDisabled(true);
+    }
+
+    // clean up before starting new cycle
+    return () => clearInterval(intervalId);
+  }, [runTimer, time]);
+
+  useEffect(() => {
+    initGameState();
   }, []);
   return (
     <>
       <div className="border flex flex-col">
-        <p
-          className="text-7xl border self-center my-3 w-40 text-center"
-          ref={timerRef}
-        ></p>
-
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col justify-center my-5">
           <div className="flex flex-row justify-between items-center">
-            <div className="border basis-1/12"></div>
-            <p className="border flex-1 text-center text-2xl">Current score</p>
+            <div className="border basis-1/6"></div>
+            <p className="text-7xl border flex-1 text-center" ref={timerRef}>
+              {time}
+            </p>
+            <button className="border basis-1/12" onClick={handleRestart}>
+              restart
+            </button>
             <button className="border basis-1/12" onClick={() => navigate("/")}>
               home
             </button>
           </div>
-
-          <p className="text-7xl border self-center">{score}</p>
         </div>
+
+        <p className="border text-center text-2xl">Current score</p>
+        <p className="text-7xl border self-center">{score}</p>
+
         <div className="flex flex-row justify-around text-align">
           <TextBox>{num1}</TextBox>
           <TextBox>{operator === "*" ? "x" : operator}</TextBox>
