@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import GameInfoContext from "./context/gameInfo";
 import { Route, Routes } from "react-router-dom";
 import MainMenu from "./pages/MainMenu";
@@ -10,10 +10,6 @@ import { ScoreDetails } from "./interfaces";
 const App: React.FC = () => {
   const [scoreboard, setScoreboard] = useState<ScoreDetails[]>([]);
 
-  useEffect(() => {
-    JSON.parse(localStorage.getItem("scoreboard")!) ||
-      localStorage.setItem("scoreboard", JSON.stringify([]));
-  }, []);
   return (
     <div>
       <GameInfoContext.Provider value={{ scoreboard, setScoreboard }}>

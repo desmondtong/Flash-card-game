@@ -90,7 +90,7 @@ const GamePage: React.FC = () => {
   useEffect(() => {
     initGameState();
 
-    //to make sure scoreboard array is created after delete history
+    //to make sure scoreboard array exist by creating one after deleted from history
     JSON.parse(localStorage.getItem("scoreboard")!) ||
       localStorage.setItem("scoreboard", JSON.stringify([]));
   }, []);
