@@ -1,6 +1,6 @@
 export interface GameInfoContext {
   scoreboard: ScoreDetails[];
-  setScoreBoard: React.Dispatch<React.SetStateAction<ScoreDetails[]>>;
+  setScoreboard: React.Dispatch<React.SetStateAction<ScoreDetails[]>>;
 }
 
 export interface Props {
