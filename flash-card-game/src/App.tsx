@@ -29,7 +29,7 @@ const App: React.FC = () => {
     generateQuestionList();
   }, []);
   return (
-    <div>
+    <div className=" bg-sky-100">
       <GameInfoContext.Provider
         value={{
           scoreboard,

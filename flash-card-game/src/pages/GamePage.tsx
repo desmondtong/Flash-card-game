@@ -12,7 +12,7 @@ const GamePage: React.FC = () => {
   const gameCtx = useContext(GameInfoContext);
 
   const operators = ["+", "-", "*", "/"];
-  const gameTime = 60;
+  const gameTime = 1;
 
   const [num1, setNum1] = useState<number>(0);
   const [num2, setNum2] = useState<number>(0);
@@ -34,10 +34,12 @@ const GamePage: React.FC = () => {
 
   // function
   const initGameState = (isContinue = false) => {
-    isContinue && setLevel(1);
+    if (!isContinue) {
+      setScore(0);
+      setLevel(1);
+    }
 
     setQuestion();
-    setScore(0);
 
     setRunTimer(true);
     setTime(gameTime);
@@ -219,7 +221,9 @@ const GamePage: React.FC = () => {
       >
         {[
           "Game Over!",
-          "Press Continue to proceed to next level!",
+          level === 4
+            ? "End of Game!"
+            : "Press Continue to proceed to next level!",
           "Continue",
           "End Game",
         ]}

@@ -37,7 +37,7 @@ const Scoreboard: React.FC = () => {
   return (
     <>
       <div className="border flex flex-col h-screen justify-center">
-        <p className="text-6xl text-center h-1/6">TOP 5 HIGHSCORES</p>
+        <p className="text-6xl text-center h-1/6">Top 5 Highscores</p>
 
         {/* show "No record!" if scoreboard history is deleted OR no records */}
         {!sortedScoreboard || sortedScoreboard.length == 0 ? (

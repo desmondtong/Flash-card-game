@@ -27,7 +27,7 @@ const History: React.FC = () => {
   return (
     <>
       <div className="flex flex-col">
-        <p className="text-6xl text-center">EQUATIONS ATTEMPTED</p>
+        <p className="text-6xl text-center my-5">Game History</p>
 
         <Button onClick={() => navigate("/")}>Main Menu</Button>
 
