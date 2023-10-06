@@ -6,6 +6,7 @@ import Button from "../components/Button";
 
 const GamePage: React.FC = () => {
   const navigate = useNavigate();
+  const operators = ["+", "-", "*", "/"];
   const gameTime = 5;
 
   const [num1, setNum1] = useState<number>(0);
@@ -19,9 +20,7 @@ const GamePage: React.FC = () => {
   const [runTimer, setRunTimer] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const timerRef = useRef<HTMLParagraphElement>(null);
 
-  const operators = ["+", "-", "*", "/"];
 
   // function
   const initGameState = () => {
@@ -69,7 +68,7 @@ const GamePage: React.FC = () => {
     initGameState();
   };
 
-  // timer
+  // game timer
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
 
@@ -95,7 +94,7 @@ const GamePage: React.FC = () => {
         <div className="flex flex-col justify-center my-5">
           <div className="flex flex-row justify-between items-center">
             <div className="border basis-1/6"></div>
-            <p className="text-7xl border flex-1 text-center" ref={timerRef}>
+            <p className="text-7xl border flex-1 text-center">
               {time}
             </p>
             <button className="border basis-1/12" onClick={handleRestart}>
@@ -108,7 +107,7 @@ const GamePage: React.FC = () => {
         </div>
 
         <p className="border text-center text-2xl">Current score</p>
-        <p className="text-7xl border self-center">{score}</p>
+        <p className="text-7xl border self-center w-40 text-center">{score}</p>
 
         <div className="flex flex-row justify-around text-align">
           <TextBox>{num1}</TextBox>
