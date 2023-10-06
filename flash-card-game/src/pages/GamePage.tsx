@@ -12,7 +12,7 @@ const GamePage: React.FC = () => {
   const gameCtx = useContext(GameInfoContext);
 
   const operators = ["+", "-", "*", "/"];
-  const gameTime = 100;
+  const gameTime = 60;
 
   const [num1, setNum1] = useState<number>(0);
   const [num2, setNum2] = useState<number>(0);
@@ -20,6 +20,7 @@ const GamePage: React.FC = () => {
   const [score, setScore] = useState<number>(0);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [level, setLevel] = useState<number>(1);
 
   // answer message
   const [showMessage, setShowMessage] = useState<boolean>(false);
@@ -32,7 +33,9 @@ const GamePage: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   // function
-  const initGameState = () => {
+  const initGameState = (isContinue = false) => {
+    isContinue && setLevel(1);
+
     setQuestion();
     setScore(0);
 
@@ -46,7 +49,10 @@ const GamePage: React.FC = () => {
   const setQuestion = () => {
     setNum1(Math.round(Math.random() * 12));
     setNum2(Math.round(Math.random() * 12));
-    setOperator(operators[Math.round(Math.random() * 3)]);
+
+    // number of operators based on levels
+    // ie: level 1 have 1 operators, level 2 have 2 operators; vice versa
+    setOperator(operators[Math.round(Math.random() * (level - 1))]);
   };
 
   const updateScore = (isCorrect = true) => {
@@ -132,6 +138,8 @@ const GamePage: React.FC = () => {
   return (
     <>
       <div className="flex flex-col h-screen justify-center">
+        <p className="text-center text-2xl">{`Level ${String(level)}`}</p>
+
         <div className="flex flex-col justify-center my-5">
           <div className="flex flex-row justify-between items-center">
             <div className="basis-5/12"></div>
@@ -205,6 +213,9 @@ const GamePage: React.FC = () => {
         setOpenModal={setOpenModal}
         btn1Navigate={() => navigate("/scoreboard")}
         score={score}
+        level={level}
+        setLevel={setLevel}
+        initGameState={initGameState}
       >
         {[
           "Game Over!",

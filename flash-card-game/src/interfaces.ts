@@ -15,6 +15,9 @@ export interface Props {
   setOpenModal?: React.Dispatch<React.SetStateAction<boolean>>;
   btn1Navigate?: () => void;
   score?: number;
+  level?: number;
+  setLevel?: React.Dispatch<React.SetStateAction<number>>;
+  initGameState?: (isContinue?: boolean) => void;
 }
 
 export interface ScoreDetails {
