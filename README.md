@@ -5,6 +5,8 @@ This frontend application is not only a fun way to practice your math skills but
 In this game, your goal is to solve math equations and score points.
 There are four levels of increasing difficulty, with one additional operator added in each level.
 
+Try out the application on the fly [here](https://mathflashcard.netlify.app/)!
+
 ---
 ## Feature Highlights
 ### Home Page
